@@ -1,0 +1,21 @@
+# Rust specific ignores
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# macOS specific ignores
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE specific ignores (uncomment if you use these)
+# /.vscode/
+# /.idea/
+
+# Backup files
+*.swp
+*.bak
+*~
+
+# Environment file (if you use one)
+.env

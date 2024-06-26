@@ -1,0 +1,27 @@
+[package]
+name = "actix_web_server"
+version = "0.1.0"
+edition = "2021"
+authors = ["c0nsumption"]
+
+[dependencies]
+actix-web = "4.0"
+
+# You can specify version requirements in various ways:
+# actix-web = "=4.0.0"     # Exactly this version
+# actix-web = ">=4.0.0"    # At least this version
+# actix-web = "^4.0.0"     # Compatible with this version
+
+# For development-only dependencies:
+# [dev-dependencies]
+# criterion = "0.3"
+
+# For optional dependencies:
+# [dependencies.serde]
+# version = "1.0"
+# optional = true
+
+# For feature flags:
+# [features]
+# default = ["json"]
+# json = ["serde"]
