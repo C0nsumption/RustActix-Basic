@@ -9,7 +9,7 @@ Cargo.lock
 .LSOverride
 
 # IDE specific ignores (uncomment if you use these)
-# /.vscode/
+/.vscode/
 # /.idea/
 
 # Backup files
@@ -19,3 +19,23 @@ Cargo.lock
 
 # Environment file (if you use one)
 .env
+
+# Node.js specific ignores
+/node_modules/
+/dist/
+/build/
+/npm-debug.log
+/yarn-error.log
+
+# TypeScript specific ignores
+*.tsbuildinfo
+
+# React specific ignores
+*.eslintcache
+serviceWorker.js
+serviceWorker.ts
+coverage/
+
+# three.js / React Three Fiber (r3f) specific ignores
+/three/examples/jsm/libs/draco/
+__r3f_cache/

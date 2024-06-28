@@ -1,137 +1,63 @@
 # RustActix-Basic
 
-This project is a simple web server built with Rust and Actix-web, demonstrating basic routing and request handling. It serves as a personal reference for Rust web development on macOS.
+This project demonstrates a full-stack application with a Rust backend using Actix-web and a React TypeScript frontend. It showcases basic routing, request handling, CORS configuration, and logging on the backend, along with a simple interactive frontend.
 
 ## Prerequisites
 
-- macOS (This guide is Mac-focused)
+- macOS
 - Internet connection
-- Git installed
+- Git
+- Node.js and npm
 
-## Installation Guide
+## Quick Start Guide
 
-### 1. Install Rust (if not already installed)
+### 1. Install Rust
 
-1. Open Terminal
-2. Run the following command:
-   ```
-   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-   ```
-3. Follow the on-screen prompts. Choose the default installation option when asked.
-4. After installation, configure your current shell:
-   ```
-   source $HOME/.cargo/env
-   ```
-
-### 2. Verify Rust Installation
-
-Run these commands to verify Rust and Cargo are installed correctly:
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source $HOME/.cargo/env
 ```
+
+Verify installation:
+```bash
 rustc --version
 cargo --version
 ```
 
-### 3. Clone the Repository
+### 2. Set Up Backend
 
-1. Open Terminal
-2. Run the following command:
-   ```
-   git clone https://github.com/C0nsumption/RustActix-Basic.git
-   cd RustActix-Basic
-   ```
-
-### 4. Build and Run the Server
-
-In the project directory, run:
+Clone the repository:
+```bash
+git clone https://github.com/C0nsumption/RustActix-Basic.git
+cd RustActix-Basic
 ```
-cargo run
+
+Run the backend:
+```bash
+RUST_LOG=info cargo run
 ```
 
 The server will start on `http://localhost:8080`
 
-## Testing the Routes
+### 3. Set Up Frontend
 
-You can test the routes using `curl` in Terminal:
-
-- GET `/`: 
-  ```
-  curl http://localhost:8080
-  ```
-- POST `/echo`: 
-  ```
-  curl -X POST -d "Hello, Server!" http://localhost:8080/echo
-  ```
-- GET `/hey/{name}`: 
-  ```
-  curl http://localhost:8080/hey/Alice
-  ```
-
-## Code Explanation
-
-### Imports
-```rust
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+In a new terminal, navigate to the frontend directory:
+```bash
+cd react-ts/
+npm install
+npm run dev
 ```
-This line imports necessary components from Actix-web.
 
-### Route Handlers
-
-1. Root route:
-   ```rust
-   #[get("/")]
-   async fn hello() -> impl Responder {
-       HttpResponse::Ok().body("Hello, World!")
-   }
-   ```
-   - Handles GET requests to "/"
-   - Returns "Hello, World!"
-
-2. Echo route:
-   ```rust
-   #[post("/echo")]
-   async fn echo(req_body: String) -> impl Responder {
-       HttpResponse::Ok().body(req_body)
-   }
-   ```
-   - Handles POST requests to "/echo"
-   - Echoes back the request body
-
-3. Greeting route:
-   ```rust
-   #[get("/hey/{name}")]
-   async fn hey(name: web::Path<String>) -> impl Responder {
-       format!("Hey {}!", name)
-   }
-   ```
-   - Handles GET requests to "/hey/{name}"
-   - Greets the provided name
-
-### Main Function
-```rust
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new()
-            .service(hello)
-            .service(echo)
-            .service(hey)
-    })
-    .bind("127.0.0.1:8080")?
-    .run()
-    .await
-}
-```
-- Creates a new `HttpServer`
-- Configures the application with our route handlers
-- Binds the server to localhost on port 8080
-- Runs the server
+The frontend will be available at the URL provided by Vite (usually `http://localhost:5173`)
 
 ## Next Steps
 
-- Add more routes and functionality
-- Implement error handling
+- Implement more complex backend logic
 - Add database integration
-- Explore Actix-web's middleware for adding common functionality like logging or authentication
+- Enhance error handling and input validation
+- Implement user authentication
+- Improve the frontend UI/UX
+- Add unit and integration tests
 
 ## Contributing
 
