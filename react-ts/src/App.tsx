@@ -1,78 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { Text, OrbitControls } from '@react-three/drei';
+import { useControls, button } from 'leva';
 
-function App() {
-  const [message, setMessage] = useState<string>('');
-  const [name, setName] = useState<string>('');
+const Scene: React.FC<{ greeting: string }> = ({ greeting }) => {
+  return (
+    <>
+      <Text position={[0, 0, 0]} fontSize={0.5} color="white">
+        {greeting || "Enter a name and click 'Get Greeting'"}
+      </Text>
+      <OrbitControls />
+    </>
+  );
+};
+
+const App: React.FC = () => {
   const [greeting, setGreeting] = useState<string>('');
-  const [echoText, setEchoText] = useState<string>('');
-  const [echoResponse, setEchoResponse] = useState<string>('');
 
-  useEffect(() => {
-    // Fetch the initial message when the component mounts
-    fetch('http://localhost:8080')
-      .then(response => response.text())
-      .then(data => setMessage(data))
-      .catch(error => console.error('Error fetching message:', error));
-  }, []);
-
-  const handleGreeting = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    fetch(`http://localhost:8080/hey/${name}`)
-      .then(response => response.text())
-      .then(data => setGreeting(data))
-      .catch(error => console.error('Error fetching greeting:', error));
-  };
-
-  const handleEcho = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    fetch('http://localhost:8080/echo', {
-      method: 'POST',
-      body: echoText,
-    })
-      .then(response => response.text())
-      .then(data => setEchoResponse(data))
-      .catch(error => console.error('Error sending echo:', error));
-  };
+  const { name } = useControls({
+    name: '',
+    'Get Greeting': button((get) => {
+      const name = get('name');
+      if (name) {
+        fetch(`http://localhost:8080/hey/${name}`)
+          .then(response => response.text())
+          .then(data => setGreeting(data))
+          .catch(error => console.error('Error fetching greeting:', error));
+      }
+    }),
+  });
 
   return (
-    <div className="App">
-      <h1>Rust + React TypeScript Interface</h1>
-      
-      <section>
-        <h2>Hello Endpoint</h2>
-        <p>Message from server: {message}</p>
-      </section>
-
-      <section>
-        <h2>Hey Endpoint</h2>
-        <form onSubmit={handleGreeting}>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
-          />
-          <button type="submit">Get Greeting</button>
-        </form>
-        {greeting && <p>Server response: {greeting}</p>}
-      </section>
-
-      <section>
-        <h2>Echo Endpoint</h2>
-        <form onSubmit={handleEcho}>
-          <input
-            type="text"
-            value={echoText}
-            onChange={(e) => setEchoText(e.target.value)}
-            placeholder="Enter text to echo"
-          />
-          <button type="submit">Send Echo</button>
-        </form>
-        {echoResponse && <p>Server echo: {echoResponse}</p>}
-      </section>
+    <div style={{ width: '100vw', height: '100vh' }}>
+      <Canvas>
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} />
+        <Scene greeting={greeting} />
+      </Canvas>
     </div>
   );
-}
+};
 
 export default App;
