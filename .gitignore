@@ -26,6 +26,7 @@ Cargo.lock
 /build/
 /npm-debug.log
 /yarn-error.log
+package-lock.json  # Add this line if you want to ignore it
 
 # TypeScript specific ignores
 *.tsbuildinfo
