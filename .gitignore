@@ -40,3 +40,4 @@ coverage/
 # three.js / React Three Fiber (r3f) specific ignores
 /three/examples/jsm/libs/draco/
 __r3f_cache/
+/package-lock.json
