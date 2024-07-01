@@ -9,6 +9,7 @@ actix-web = "4.0"
 actix-cors = "0.6"
 env_logger = "0.10"
 log = "0.4"
+log4rs = "1.2"
 
 # You can specify version requirements in various ways:
 # actix-web = "=4.0.0"     # Exactly this version

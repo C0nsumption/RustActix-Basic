@@ -41,3 +41,6 @@ coverage/
 /three/examples/jsm/libs/draco/
 __r3f_cache/
 react-ts/package-lock.json
+
+# Logging
+/log
