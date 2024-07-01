@@ -1,28 +1,44 @@
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder, middleware::Logger};
 use actix_cors::Cors;
-use env_logger::Env;
+use log::{info, LevelFilter};
+use log4rs::{
+    append::file::FileAppender,
+    config::{Appender, Config, Root},
+    encode::pattern::PatternEncoder,
+};
 
 #[get("/")]
 async fn hello() -> impl Responder {
-    log::info!("Handling GET request to /");
+    info!("Handling GET request to /");
     HttpResponse::Ok().body("Hello, World!")
 }
 
 #[post("/echo")]
 async fn echo(req_body: String) -> impl Responder {
-    log::info!("Handling POST request to /echo with body: {}", req_body);
+    info!("Handling POST request to /echo with body: {}", req_body);
     HttpResponse::Ok().body(req_body)
 }
 
 #[get("/hey/{name}")]
 async fn hey(name: web::Path<String>) -> impl Responder {
-    log::info!("Handling GET request to /hey/{}", name);
+    info!("Handling GET request to /hey/{}", name);
     format!("Hey {}!", name)
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    env_logger::init_from_env(Env::default().default_filter_or("info"));
+    // Configure file logging
+    let logfile = FileAppender::builder()
+        .encoder(Box::new(PatternEncoder::new("{d} - {l} - {m}\n")))
+        .build("log/output.log")
+        .unwrap();
+
+    let config = Config::builder()
+        .appender(Appender::builder().build("logfile", Box::new(logfile)))
+        .build(Root::builder().appender("logfile").build(LevelFilter::Info))
+        .unwrap();
+
+    log4rs::init_config(config).unwrap();
 
     HttpServer::new(|| {
         let cors = Cors::default()
